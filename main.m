@@ -29,9 +29,15 @@ L= 4; % Layers transmission
 
 OH=OH_calc(FR, Tx_dir); % overhead OH
 
-Numerology_tab = zeros (1, 4);
+SCS = 15*(2^num); % [KHz]
+n_slot = 2^num;
+TTI_duration = 1000/(2^num); % [μs]
+t_symb= 0.001/ (14*(2^num)); % assuming the normal cyclic prefix (average OFDM symbol duration)
+
+RB = RB_calc(num,FR,BW);
+
 %+----------+------------------------+------------------------------+-------------------+
-%|Numerology|Subcarrier Spacing (SCS)|No. slot per subframe (n_slot)|TTI                |
+%|Numerology|Subcarrier Spacing (SCS)|No. slot per subframe (n_slot)|TTI (TTI_duration) |
 %|----------|------------------------|------------------------------|-------------------|
 %|0         |15 KHz                  |1                             |1000  micro secondi|
 %|1         |30 KHz                  |2                             |500   micro secondi|
@@ -40,10 +46,22 @@ Numerology_tab = zeros (1, 4);
 %|4         |240 KHz                 |16                            |62.5  micro secondi|
 %|5         |480 KHz                 |32                            |31.25 micro secondi|
 %+----------+------------------------+------------------------------+-------------------+
+Numerology_tab=[num SCS n_slot TTI_duration];
 
-SCS = 15*(2^num); % [KHz]
-n_slot = 2^num;
-TTI_duration = 1000/(2^num); % [μs]
-t_symb= 0.001/ (14*(2^num)); % assuming the normal cyclic prefix (average OFDM symbol duration)
-
-RB = RB_calc(num,FR,BW);
+for bw=1:1:length(BW)
+    for algo=algorithm
+        switch algo
+            case 1
+                func='CMS';
+            case 2
+                func='OMS';
+            case 3
+                func='MS';
+        end
+        if strcmp(func, 'MS')
+            % TODO
+        else
+            % TODO
+        end
+    end
+end
