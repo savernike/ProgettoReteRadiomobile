@@ -77,6 +77,20 @@ for bw=1:1:length(BW)
         cqiMatrix=randi([1,15], [TTI, NUE]); % CQI variation matrix for each user
         for t=1:TTI
             cqi_UE=cqiMatrix(t, :); %Extracting TTI line from CQI variation matrix
+            for algo=algorithm
+                switch algo
+                    case 1
+                        func='CMS';
+                        CQI = CMS(cqi_UE);
+                    case 2
+                        func='OMS';
+                        min_datarate_mcs= [25.59 39.38 63.34 101.07 147.34 197.53 248.07 321.57 404.26 458.72 558.72 655.59 759.93 859.35 933.19]; %min datarate for CQI=1:1:15
+                        CQI=OMS(cqi_UE, min_datarate_mcs, RB(1,bw));
+                    case 3
+                        func='MS';
+                end
+            end
+        end
     end
 
 end
