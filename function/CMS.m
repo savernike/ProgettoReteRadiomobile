@@ -1,7 +1,9 @@
-function [outputArg1,outputArg2] = CMS(inputArg1,inputArg2)
-%CMS Summary of this function goes here
+function [min_CQI] = CMS(cqi_UE)
+%CMS ricerca il minimo CQI tra quelli sperimentati dagli utenti, in modo da
+%scegliere la modulazione più robusta (cioè MCS più piccolo)
 %   Detailed explanation goes here
-outputArg1 = inputArg1;
-outputArg2 = inputArg2;
+
+min_CQI=min(cqi_UE);
+
 end
 

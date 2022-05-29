@@ -15,7 +15,7 @@ FR=1; %Frequency range 1 (3GPP TS 38.104)
 
 num=2; % numerologia scelta (dipende anche dal FR)
 
-%TTI = tempo_di_simulazione/TTI_duration = 50/[1/(2 ^ numerologia)] 
+%TTI = tempo_di_simulazione/TTI_duration = Tsim /[1/(2 ^ numerologia)] 
 TTI=Tsim / (1/power(2,num));
 
  %trasmission bandwidth presente nella configurazione per FR = 1
@@ -59,9 +59,24 @@ for bw=1:1:length(BW)
                 func='MS';
         end
         if strcmp(func, 'MS')
-            % TODO
-        else
-            % TODO
+            for s=1:1:3 % number of subgroups
+                eval(strcat('THR_s',num2str(s),'_',func,'_BW_',num2str(BW(bw)),'=zeros(Nsim,TTI);'))
+                eval(strcat('ADR_s',num2str(s),'_',func,'_BW_',num2str(BW(bw)),'=zeros(Nsim,TTI);'))
+                eval(strcat('DT_s',num2str(s),'_',func,'_BW_',num2str(BW(bw)),'=zeros(Nsim,TTI);'))
+                eval(strcat('SE_s',num2str(s),'_',func,'_BW_',num2str(BW(bw)),'=zeros(Nsim,TTI);'))
+            end
+        else % considering MCS e OMS
+            eval(strcat('THR_',func,'_BW_',num2str(BW(bw)),' = zeros(Nsim,TTI);'))
+            eval(strcat('ADR_',func,'_BW_',num2str(BW(bw)),' = zeros(Nsim,TTI);'))
+            eval(strcat('DT_',func,'_BW_',num2str(BW(bw)),' = zeros(Nsim,TTI);'))
+            eval(strcat('SE_',func,'_BW_',num2str(BW(bw)),' = zeros(Nsim,TTI);'))
         end
     end
+    
+    for sim=1:Nsim
+        cqiMatrix=randi([1,15], [TTI, NUE]); % CQI variation matrix for each user
+        for t=1:TTI
+            cqi_UE=cqiMatrix(t, :); %Extracting TTI line from CQI variation matrix
+    end
+
 end
