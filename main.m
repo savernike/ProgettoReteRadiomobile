@@ -3,7 +3,7 @@ clc
 
 algorithm=[1 2 3]; %1=CMS,2=OMS,3=MS
 
-dim_file = 100 % [Mbit]
+dim_file = 100; % [Mbit]
 
 Nsim=150; %Numero di simulazioni
 Tsim=50; %Tempo di simulazione [ms]
@@ -19,7 +19,7 @@ num=2; % numerologia scelta (dipende anche dal FR)
 TTI=Tsim / (1/power(2,num));
 
  %trasmission bandwidth presente nella configurazione per FR = 1
-BW=[10:10:100];
+BW=10:10:100;
 
 %Transmission direction: 1-DL; 2-UL
 Tx_dir = 1; 
@@ -27,19 +27,9 @@ Tx_dir = 1;
 CC= 1; %component carrier
 L= 4; % Layers transmission
 
-%overhead OH
-%0.14 for frequency range FR1 for DL
-%0.08 for frequency range FR1 for UL
-%0.18 for frequency range FR2 for DL
-%0.10 for frequency range FR2 for UL
-OH=OH_calc(FR, Tx_dir);
+OH=OH_calc(FR, Tx_dir); % overhead OH
 
-RB=zeros(1,length(BW)); % RB depends on the bandwidth and the numerology
-% RB = -1 means NOT AVAILABLE. Values are
-% from 3GPP TS 38.104 Rel. 15 V. 15.1.0
-% (march 2018)
-
-Numerology_tab = zeros (length (num), 4);
+Numerology_tab = zeros (1, 4);
 %+----------+------------------------+------------------------------+-------------------+
 %|Numerology|Subcarrier Spacing (SCS)|No. slot per subframe (n_slot)|TTI                |
 %|----------|------------------------|------------------------------|-------------------|
@@ -51,4 +41,9 @@ Numerology_tab = zeros (length (num), 4);
 %|5         |480 KHz                 |32                            |31.25 micro secondi|
 %+----------+------------------------+------------------------------+-------------------+
 
+SCS = 15*(2^num); % [KHz]
+n_slot = 2^num;
+TTI_duration = 1000/(2^num); % [μs]
+t_symb= 0.001/ (14*(2^num)); % assuming the normal cyclic prefix (average OFDM symbol duration)
 
+RB = RB_calc(num,FR,BW);
