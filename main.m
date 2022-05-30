@@ -3,7 +3,7 @@ clc
 
 algorithm=[1 2 3]; %1=CMS,2=OMS,3=MS
 
-dim_file = 100; % [Mbit]
+dim_file = 100; % [Mb]
 
 Nsim=150; %Numero di simulazioni
 Tsim=50; %Tempo di simulazione [ms]
@@ -48,6 +48,8 @@ RB = RB_calc(num,FR,BW);
 %+----------+------------------------+------------------------------+-------------------+
 Numerology_tab=[num SCS n_slot TTI_duration];
 
+min_datarate_mcs= [25.59 39.38 63.34 101.07 147.34 197.53 248.07 321.57 404.26 458.72 558.72 655.59 759.93 859.35 933.19]; %min datarate for CQI=1:1:15
+
 for bw=1:1:length(BW)
     for algo=algorithm
         switch algo
@@ -72,20 +74,19 @@ for bw=1:1:length(BW)
             eval(strcat('SE_',func,'_BW_',num2str(BW(bw)),' = zeros(Nsim,TTI);'))
         end
     end
-    
+
     for sim=1:Nsim
         cqiMatrix=randi([1,15], [TTI, NUE]); % CQI variation matrix for each user
         for t=1:TTI
-            cqi_UE=cqiMatrix(t, :); %Extracting TTI line from CQI variation matrix
+            cqi_UE=cqiMatrix(t, :); %Extracting TTI-th line from CQI variation matrix
             for algo=algorithm
                 switch algo
                     case 1
                         func='CMS';
-                        CQI = CMS(cqi_UE);
+                        [THR, ADR, DT, SE] = CMS(cqi_UE, min_datarate_mcs, NUE, RB(1,bw), dim_file, SCS);
                     case 2
                         func='OMS';
-                        min_datarate_mcs= [25.59 39.38 63.34 101.07 147.34 197.53 248.07 321.57 404.26 458.72 558.72 655.59 759.93 859.35 933.19]; %min datarate for CQI=1:1:15
-                        CQI=OMS(cqi_UE, min_datarate_mcs, RB(1,bw));
+                        [THR, ADR, DT, SE] = OMS(cqi_UE, min_datarate_mcs, NUE, RB(1,bw), dim_file, SCS);
                     case 3
                         func='MS';
                 end
