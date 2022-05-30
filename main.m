@@ -60,19 +60,10 @@ for bw=1:1:length(BW)
             case 3
                 func='MS';
         end
-        if strcmp(func, 'MS')
-            for s=1:1:3 % number of subgroups
-                eval(strcat('THR_s',num2str(s),'_',func,'_BW_',num2str(BW(bw)),'=zeros(Nsim,TTI);'))
-                eval(strcat('ADR_s',num2str(s),'_',func,'_BW_',num2str(BW(bw)),'=zeros(Nsim,TTI);'))
-                eval(strcat('DT_s',num2str(s),'_',func,'_BW_',num2str(BW(bw)),'=zeros(Nsim,TTI);'))
-                eval(strcat('SE_s',num2str(s),'_',func,'_BW_',num2str(BW(bw)),'=zeros(Nsim,TTI);'))
-            end
-        else % considering MCS e OMS
-            eval(strcat('THR_',func,'_BW_',num2str(BW(bw)),' = zeros(Nsim,TTI);'))
-            eval(strcat('ADR_',func,'_BW_',num2str(BW(bw)),' = zeros(Nsim,TTI);'))
-            eval(strcat('DT_',func,'_BW_',num2str(BW(bw)),' = zeros(Nsim,TTI);'))
-            eval(strcat('SE_',func,'_BW_',num2str(BW(bw)),' = zeros(Nsim,TTI);'))
-        end
+        eval(strcat('THR_',func,'_BW_',num2str(BW(bw)),' = zeros(Nsim,TTI);'))
+        eval(strcat('ADR_',func,'_BW_',num2str(BW(bw)),' = zeros(Nsim,TTI);'))
+        eval(strcat('DT_',func,'_BW_',num2str(BW(bw)),' = zeros(Nsim,TTI);'))
+        eval(strcat('SE_',func,'_BW_',num2str(BW(bw)),' = zeros(Nsim,TTI);'))
     end
 
     for sim=1:Nsim
@@ -89,6 +80,7 @@ for bw=1:1:length(BW)
                         [THR, ADR, DT, SE] = OMS(cqi_UE, min_datarate_mcs, NUE, RB(1,bw), dim_file, SCS);
                     case 3
                         func='MS';
+                        [THR, ADR, DT, SE] = MS(cqi_UE, min_datarate_mcs, NUE, RB(1,bw), dim_file, SCS);
                 end
             end
         end

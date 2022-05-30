@@ -5,8 +5,8 @@ function[THR, ADR, DT, SE]= CMS (cqi_UE, min_datarate_mcs, NUE, RB, dim_file, SC
 %   poter decodificare il contenuto
 %3) trova il minimo datarate per singolo RB relativo al valore MCS%
 %   selezionato 
-%4) calcola Throughtput(THR), Aggregate Data Rate (ADR), Delivery Time (DT)
-%   e Spectral Efficiency (SE)
+%4) calcola Throughtput(THR), Aggregate Data Rate (ADR), 
+%   Delivery Time (DT) e Spectral Efficiency (SE)
 
 min_CQI = min(cqi_UE);
 min_MCS = min_CQI;
