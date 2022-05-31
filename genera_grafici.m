@@ -3,7 +3,6 @@ clc
 
 %1-CMS, 2-OMS, 3-MS
 algorithm=[1 2 3];
-num_subgroup=2;
 
 %1-Throughput, 2-ADR, 3-Delivery Time, 4-Spectral Efficiency
 res=[1 2 3 4];
@@ -11,13 +10,14 @@ res=[1 2 3 4];
 BW=(10:10:100);
 FR=1;
 
-type='RB'; %NUE 
-
 nUE=250;
 
 for rs=res
     figure
-    YRES=zeros(num_subgroup, length(BW));
+
+    %Inizializzazione vettore per i risultati nelle ordinate
+    YRES=zeros(1, length(BW));
+
     for algo=algorithm
         switch algo
             case 1
@@ -27,65 +27,41 @@ for rs=res
             case 3
                 name='MS';
         end
-        
-        p=(strcat('C:\Users\utente\Documents\MATLAB\MATLAB_base_excercises\Simulatore_Franzè_Santone\last\'));%PERCORSO DA MODIFICARE
+
+        % Faccio un redirect nella cartella dei workspace e li carico
+        p=(strcat('D:\Personale\Università\Magistrale\1°Anno\Reti Radiomobili\Progetto Esame\ProgettoReteRadiomobile\last\'));
         for bw=BW
-            load([p 'bw_' num2str(bw) '.mat']);
+            load([p 'BW_' num2str(bw) '.mat']);
         end
-        
-        
+
         id_bw=1;
         for bw=BW
-            if algo==3
-                for j=1:1:num_subgroup
-                    if rs==1 
-                        eval(['YRES(j,id_bw)=THR_s' num2str(j) name '_bw_' num2str(bw) ';']); %[Mbps]
-                        
-                    elseif rs==2
-                        eval(['YRES(j,id_bw)=ADR_s' num2str(j) name '_bw_'  num2str(bw) ';']);  %[Mbps]
-                        
-                    elseif rs==3
-                        eval(['YRES(j,id_bw)=Delivery_Time_s' num2str(j) name '_bw_'  num2str(bw) ';']);  %[s]
-                   
-                    elseif rs==4
-                        eval(['YRES(j,id_bw)=Spectral_Efficiency_s' num2str(j) name '_bw_'  num2str(bw) ';']);  %[bps/Hz]
-                    
-                     end
-                end
-                if not(rs==2)
-                    YRES(1,id_bw)=(YRES(1, id_bw)+YRES(2, id_bw)+YRES(3, id_bw)+YRES(4, id_bw))/num_subgroup;
-                else
-                    YRES(1,id_bw)=(YRES(1, id_bw)+YRES(2, id_bw)+YRES(3, id_bw)+YRES(4, id_bw));
-                end
-            else                
-                if rs==1 
-                    eval(['YRES(1,id_bw)=THR_' name '_bw_' num2str(bw) ';']); %[Mbps]
-                  
-                elseif rs==2
-                    eval(['YRES(1,id_bw)=ADR_' name '_bw_'  num2str(bw) ';']); %[Mbps]
-                    
-                elseif rs==3
-                    eval(['YRES(1,id_bw)=Delivery_Time_' name '_bw_'  num2str(bw) ';']); %[s]
-
-                elseif rs==4
-                    eval(['YRES(1,id_bw)=Spectral_Effciency_' name '_bw_'  num2str(bw) ';']); %[bps/Hz]    
-                end
+            switch rs
+                case 1
+                    eval(['YRES(1,id_bw) = THR_' name '_bw_' num2str(bw) ';']); %[Mbps]
+                case 2
+                    eval(['YRES(1,id_bw) = ADR_' name '_bw_'  num2str(bw) ';']); %[Mbps]
+                case 3
+                    eval(['YRES(1,id_bw) = Delivery_Time_' name '_bw_'  num2str(bw) ';']); %[s]
+                case 4
+                    eval(['YRES(1,id_bw) = Spectral_Effciency_' name '_bw_'  num2str(bw) ';']); %[bps/Hz]
             end
+
             id_bw=id_bw+1;
         end
-        
+
         switch algo
-            case 1 %CMS
-                plot(RB, YRES(1,:), '--ok');
+            case 1 % CMS
+                plot(RB, YRES(1,:), '-pr'); % red with pentagram 
                 hold on
-            case 2 %OMS
-                plot(RB, YRES(1,:), '-db');
+            case 2 % OMS
+                plot(RB, YRES(1,:), '-dg'); % green with diamond
                 hold on
-            case 3 %MS
-                plot(RB, YRES(1,:), ':^m');              
-                
+            case 3 % MS
+                plot(RB, YRES(1,:), '-hb'); % blue with hexagram
+
         end
-        
+
         switch rs
             case 1
                 ylabel('Througput [Mbps]', 'FontSize', 16)
@@ -95,25 +71,22 @@ for rs=res
                 ylabel('Delivery Time [s]', 'FontSize', 16)
             case 4
                 ylabel('Spectral Efficiency [bps/Hz]', 'FontSize', 16)
-
         end
-        if strcmp(type, 'NUE')==1
-            xlabel('NUUE', 'FontSize', 16)
-        elseif strcmp(type, 'RB')==1
-            xlabel('Available Resouce Blocks', 'FontSize', 16)
-        end
+        xlabel('Available Resouce Blocks', 'FontSize', 16)
     end
+
     grid on
-    legend('CMS', 'OMS', 'MS' )
-    %saving the plot in the path
-    if rs==1 %THR
-        saveas(gcf, 'C:\Users\utente\Documents\MATLAB\MATLAB_base_excercises\Simulatore_Franzè_Santone\grafici\plot_THR.png') %PERCORSO DA MODIFICARE
-    elseif rs==2 %ADR
-        saveas(gcf, 'C:\Users\utente\Documents\MATLAB\MATLAB_base_excercises\Simulatore_Franzè_Santone\grafici\plot_ADR.png')%PERCORSO DA MODIFICARE
-     elseif rs==3 %Delivery Time
-        saveas(gcf, 'C:\Users\utente\Documents\MATLAB\MATLAB_base_excercises\Simulatore_Franzè_Santone\grafici\plot_PeakDR.png')%PERCORSO DA MODIFICARE
-    elseif rs==4 %Spectral Efficiency
-        %MANCA IL PERCORSO
+    legend('CMS', 'OMS', 'MS')
+
+    % Salvataggio dei grafici in png nella cartella
+    if rs==1 % THR
+        saveas(gcf, 'D:\Personale\Università\Magistrale\1°Anno\Reti Radiomobili\Progetto Esame\ProgettoReteRadiomobile\plot\plot_THR.png')
+    elseif rs==2 % ADR
+        saveas(gcf, 'D:\Personale\Università\Magistrale\1°Anno\Reti Radiomobili\Progetto Esame\ProgettoReteRadiomobile\plot\plot_ADR.png')
+    elseif rs==3 % Delivery Time
+        saveas(gcf, 'D:\Personale\Università\Magistrale\1°Anno\Reti Radiomobili\Progetto Esame\ProgettoReteRadiomobile\plot\plot_DT.png')
+    elseif rs==4 % Spectral Efficiency
+        saveas(gcf, 'D:\Personale\Università\Magistrale\1°Anno\Reti Radiomobili\Progetto Esame\ProgettoReteRadiomobile\plot\plot_SE.png')
     end
 
 end
