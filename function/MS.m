@@ -1,4 +1,4 @@
-Afunction [THR, ADR, DT, SE]=MS(cqi, min_datarate_mcs, NUE, RB, dim_file, SCS)
+function [THR, ADR, DT, SE]=MS(cqi, min_datarate_mcs, NUE, RB, dim_file, SCS)
 %MS=Multicats Subgrouping
 % Questo algoritmo divide gli utenti in base alla loro CQI e massimizza
 % il throughput per massimizzare l'efficenza spettrale
