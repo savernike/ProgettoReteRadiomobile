@@ -35,7 +35,7 @@ for rs=res
         end
 
         id_bw=1;
-        for bw=BW  
+        for bw=BW
             switch rs
                 case 1
                     eval(['YRES(1,id_bw) = THR_' name '_BW_' num2str(bw) ';']); %[Mbps]
@@ -52,14 +52,14 @@ for rs=res
 
         switch algo
             case 1 % CMS
-                plot(RB, YRES(1,:), '-pr') % red with pentagram 
-                hold on;
+                plot(RB, YRES(1,:), '-h')
             case 2 % OMS
-                plot(RB, YRES(1,:), '-dg') % green with diamond
                 hold on;
+                plot(RB, YRES(1,:), '-h')
             case 3 % MS
-                plot(RB, YRES(1,:), '-hb') % blue with hexagram
-
+                hold on;
+                plot(RB, YRES(1,:), '-h')
+        
         end
 
         switch rs
