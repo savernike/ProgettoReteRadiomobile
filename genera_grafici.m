@@ -35,16 +35,16 @@ for rs=res
         end
 
         id_bw=1;
-        for bw=BW
+        for bw=BW  
             switch rs
                 case 1
-                    eval(['YRES(1,id_bw) = THR_' name '_bw_' num2str(bw) ';']); %[Mbps]
+                    eval(['YRES(1,id_bw) = THR_' name '_BW_' num2str(bw) ';']); %[Mbps]
                 case 2
-                    eval(['YRES(1,id_bw) = ADR_' name '_bw_'  num2str(bw) ';']); %[Mbps]
+                    eval(['YRES(1,id_bw) = ADR_' name '_BW_'  num2str(bw) ';']); %[Mbps]
                 case 3
-                    eval(['YRES(1,id_bw) = Delivery_Time_' name '_bw_'  num2str(bw) ';']); %[s]
+                    eval(['YRES(1,id_bw) = DT_' name '_BW_'  num2str(bw) ';']); %[s]
                 case 4
-                    eval(['YRES(1,id_bw) = Spectral_Effciency_' name '_bw_'  num2str(bw) ';']); %[bps/Hz]
+                    eval(['YRES(1,id_bw) = SE_' name '_BW_'  num2str(bw) ';']); %[bps/Hz]
             end
 
             id_bw=id_bw+1;
@@ -52,27 +52,27 @@ for rs=res
 
         switch algo
             case 1 % CMS
-                plot(RB, YRES(1,:), '-pr'); % red with pentagram 
-                hold on
+                plot(RB, YRES(1,:), '-pr') % red with pentagram 
+                hold on;
             case 2 % OMS
-                plot(RB, YRES(1,:), '-dg'); % green with diamond
-                hold on
+                plot(RB, YRES(1,:), '-dg') % green with diamond
+                hold on;
             case 3 % MS
-                plot(RB, YRES(1,:), '-hb'); % blue with hexagram
+                plot(RB, YRES(1,:), '-hb') % blue with hexagram
 
         end
 
         switch rs
             case 1
-                ylabel('Througput [Mbps]', 'FontSize', 16)
+                ylabel('Througput (THR) [Mbps]', 'FontSize', 16)
             case 2
-                ylabel('Aggregate Data Rate [Mbps]', 'FontSize', 16)
+                ylabel('Aggregate Data Rate (ADR) [Mbps]', 'FontSize', 16)
             case 3
-                ylabel('Delivery Time [s]', 'FontSize', 16)
+                ylabel('Delivery Time (DT) [s]', 'FontSize', 16)
             case 4
-                ylabel('Spectral Efficiency [bps/Hz]', 'FontSize', 16)
+                ylabel('Spectral Efficiency (SE) [bps/Hz]', 'FontSize', 16)
         end
-        xlabel('Available Resouce Blocks', 'FontSize', 16)
+        xlabel('Available Resouce Blocks (RB)', 'FontSize', 16)
     end
 
     grid on

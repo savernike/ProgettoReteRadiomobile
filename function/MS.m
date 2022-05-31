@@ -14,7 +14,7 @@ cqi_UE_s1 = unique(cqi); % ordinamento crescente e non considera i valori ripetu
 id_cqi_s1 = 0;
 
 while SE_rif_s1 >= SE_s1
-    SE_s1 = SE_s1_rif;
+    SE_s1 = SE_rif_s1;
     id_cqi_s1 = id_cqi_s1+1;
     if id_cqi_s1 <= length(cqi_UE_s1)
         mcs_s1 = cqi_UE_s1(id_cqi_s1);
