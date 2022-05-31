@@ -102,26 +102,29 @@ for bw = 1:1:length(BW)
 
         % Normalized mean of values
         eval(['r = THR_',func,'_BW_',num2str(BW(bw)), ';'])
-%         [a, b] = meanWithError(r,0.05);
 %         eval(strcat('THR_', func, '_BW_',num2str(BW(bw)),' = ',a,';'))
-%                     
-%         eval(['r = ADR_',func,'_BW_',num2str(BW(bw)), ';'])
-%         [a, b] = meanWithError(r,0.05);
-%         eval(strcat('ADR_',func,'_BW_',num2str(BW(bw)),' = ',a,';'))
-% 
-%         eval(['r = DT_',func,'_BW_',num2str(BW(bw)), ';'])
-%         [a, b] = meanWithError(r,0.05);
-%         eval(strcat('DT_',func,'_BW_',num2str(BW(bw)),' = ',a,';'))
-%         
-%         eval(['r = SE_',func,'_BW_',num2str(BW(bw)), ';'])
-%         [a, b] = meanWithError(r,0.05);
-%         eval(strcat('SE_',func,'_BW_',num2str(BW(bw)),' = ',a,';'))
+        [a, b] = meanWithError(r,0.05);
+        eval(strcat('THR_', func, '_BW_',num2str(BW(bw)),' = a;'))
+                    
+        eval(['r = ADR_',func,'_BW_',num2str(BW(bw)), ';'])
+        [a, b] = meanWithError(r,0.05);
+        eval(strcat('ADR_',func,'_BW_',num2str(BW(bw)),' = a;'))
+
+        eval(['r = DT_',func,'_BW_',num2str(BW(bw)), ';'])
+        [a, b] = meanWithError(r,0.05);
+        eval(strcat('DT_',func,'_BW_',num2str(BW(bw)),' = a;'))
+        
+        eval(['r = SE_',func,'_BW_',num2str(BW(bw)), ';'])
+        [a, b] = meanWithError(r,0.05);
+        eval(strcat('SE_',func,'_BW_',num2str(BW(bw)),' = a;'))
     end
 
 
-%     save(['D:\Personale\Università\Magistrale\1°Anno\Reti Radiomobili\Progetto Esame\ProgettoReteRadiomobile\last\','BW_',num2str(BW(bw1)), '.mat']);
-%     
-%     eval(strcat('clear ADR*'));
-%     eval(strcat('clear peak_DR*'));
-%     eval(strcat('clear THR*'));
+    save(['D:\Personale\Università\Magistrale\1°Anno\Reti Radiomobili\Progetto Esame\ProgettoReteRadiomobile\last\','BW_',num2str(BW(bw)), '.mat']);
+       
+    eval(strcat('clear THR*'));
+    eval(strcat('clear ADR*'));
+    eval(strcat('clear DT*'));
+    eval(strcat('clear SE*'));
+
 end
